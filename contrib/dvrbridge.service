@@ -1,0 +1,46 @@
+# systemd unit for dvrbridge — install to /etc/systemd/system/dvrbridge.service
+# then: systemctl enable --now dvrbridge
+#
+# The config at /etc/dvrbridge.toml holds the DVR password: keep it
+#   root:root 0640  (readable by the DynamicUser group, not world)
+[Unit]
+Description=dvrbridge — legacy CCTV DVR to RTSP bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/dvrbridge serve -c /etc/dvrbridge.toml
+Restart=on-failure
+RestartSec=3
+
+# the daemon needs no privileges at all
+DynamicUser=yes
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+# egress lockdown: reach only the DVR(s) + serve local clients. Uncomment and
+# set to your DVR subnet so a compromised bridge cannot phone home.
+#IPAddressDeny=any
+#IPAddressAllow=localhost 192.168.1.0/24
+
+[Install]
+WantedBy=multi-user.target

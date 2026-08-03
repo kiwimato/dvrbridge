@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dvrbridge"
+version = "0.1.0"
+description = "Bridge legacy closed-protocol CCTV DVRs to standard RTSP — no transcoding, no dependencies."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Mihai" }]
+keywords = ["cctv", "dvr", "rtsp", "frigate", "go2rtc", "xmeye", "surveillance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Video",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.scripts]
+dvrbridge = "dvrbridge.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio"]
+
+[tool.setuptools.packages.find]
+include = ["dvrbridge*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
