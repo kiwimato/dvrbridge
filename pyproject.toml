@@ -18,6 +18,11 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 
+[project.urls]
+Homepage = "https://dvrbridge.codeverse.nl/"
+Repository = "https://github.com/kiwimato/dvrbridge"
+Issues = "https://github.com/kiwimato/dvrbridge/issues"
+
 [project.scripts]
 dvrbridge = "dvrbridge.cli:main"
 
